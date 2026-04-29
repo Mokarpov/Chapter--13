@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 13 Quiz: Genetic Code and Protein Synthesis</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #ecf0f1;
+            --text-color: #333;
+            --success-color: #27ae60;
+            --error-color: #c0392b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--background-color);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .timer-container {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #e74c3c;
+            background: #ffeaea;
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 1px solid #ffcccc;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label.field-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+
+        .q-card {
+            background: #fdfdfd;
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .q-text {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .opts label {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            font-weight: normal;
+            color: var(--text-color);
+        }
+
+        .opts label:hover {
+            background: #e9ecef;
+        }
+
+        input[type="radio"] {
+            margin-right: 15px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .submit-btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        #results-container {
+            display: none;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid var(--background-color);
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+        }
+
+        .res-card {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border-left: 5px solid;
+        }
+
+        .res-correct {
+            background-color: #e8f8f5;
+            border-left-color: var(--success-color);
+        }
+
+        .res-incorrect {
+            background-color: #fdedec;
+            border-left-color: var(--error-color);
+        }
+
+        .res-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .correct-ans {
+            color: var(--success-color);
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .loading-msg {
+            text-align: center;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            display: none;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Lecture 13 Quiz: Genetic Code and Protein Synthesis</h1>
+        <div class="subtitle">By Dr. Nada Mohamed</div>
+        <div class="timer-container" id="timer">30:00</div>
+    </header>
+
+    <form id="quiz-form">
+        <div class="form-group">
+            <label class="field-label" for="student-name">Student Name <span style="color:red;">*</span></label>
+            <input type="text" id="student-name" required placeholder="Enter your full name">
+        </div>
+
+        <div id="questions-container">
+            <div class="q-card">
+                <div class="q-text">1. What is the fundamental relationship between a gene and its polypeptide product?</div>
+                <div class="opts" data-ans="1">
+                    <label><input type="radio" name="q1" value="0" required> One gene codes for multiple polypeptide chains simultaneously.</label>
+                    <label><input type="radio" name="q1" value="1"> One gene essentially codes for one polypeptide.</label>
+                    <label><input type="radio" name="q1" value="2"> Multiple genes are required to code for a single amino acid.</label>
+                    <label><input type="radio" name="q1" value="3"> Genes code directly for lipids, which then form polypeptides.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">2. What specific component determines the order of amino acids in a polypeptide chain?</div>
+                <div class="opts" data-ans="2">
+                    <label><input type="radio" name="q2" value="0" required> The physical size of the ribosome.</label>
+                    <label><input type="radio" name="q2" value="1"> The amount of RNA polymerase available in the cell.</label>
+                    <label><input type="radio" name="q2" value="2"> The sequence of bases forming the code on the DNA molecule.</label>
+                    <label><input type="radio" name="q2" value="3"> The total number of nuclear pores in the nuclear envelope.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">3. A sequence of three bases on an mRNA molecule that codes for an amino acid is known as a(n):</div>
+                <div class="opts" data-ans="0">
+                    <label><input type="radio" name="q3" value="0" required> Codon</label>
+                    <label><input type="radio" name="q3" value="1"> Anticodon</label>
+                    <label><input type="radio" name="q3" value="2"> Triplet</label>
+                    <label><input type="radio" name="q3" value="3"> Ribozyme</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">4. Where is an anticodon located within the cellular machinery?</div>
+                <div class="opts" data-ans="3">
+                    <label><input type="radio" name="q4" value="0" required> On the DNA template strand.</label>
+                    <label><input type="radio" name="q4" value="1"> On the mRNA molecule.</label>
+                    <label><input type="radio" name="q4" value="2"> Within the core of the ribosome.</label>
+                    <label><input type="radio" name="q4" value="3"> On the tRNA molecule.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">5. What is the term for a 3-base sequence located directly on the DNA?</div>
+                <div class="opts" data-ans="2">
+                    <label><input type="radio" name="q5" value="0" required> Codon</label>
+                    <label><input type="radio" name="q5" value="1"> Anticodon</label>
+                    <label><input type="radio" name="q5" value="2"> Triplet</label>
+                    <label><input type="radio" name="q5" value="3"> Gene</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">6. How many possible code combinations exist in the genetic code, considering the combination of nucleotides in a 3-base sequence?</div>
+                <div class="opts" data-ans="1">
+                    <label><input type="radio" name="q6" value="0" required> 20</label>
+                    <label><input type="radio" name="q6" value="1"> 64</label>
+                    <label><input type="radio" name="q6" value="2"> 16</label>
+                    <label><input type="radio" name="q6" value="3"> 12</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">7. What is meant by "redundancy" in the context of the genetic code?</div>
+                <div class="opts" data-ans="0">
+                    <label><input type="radio" name="q7" value="0" required> More than one codon can code for a particular amino acid.</label>
+                    <label><input type="radio" name="q7" value="1"> Multiple ribosomes can translate the same mRNA strand simultaneously.</label>
+                    <label><input type="radio" name="q7" value="2"> DNA replicates itself redundantly before cell division.</label>
+                    <label><input type="radio" name="q7" value="3"> A single codon can correspond to multiple different amino acids.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">8. Which amino acid does the initiation codon AUG represent?</div>
+                <div class="opts" data-ans="2">
+                    <label><input type="radio" name="q8" value="0" required> Valine</label>
+                    <label><input type="radio" name="q8" value="1"> Glycine</label>
+                    <label><input type="radio" name="q8" value="2"> Methionine</label>
+                    <label><input type="radio" name="q8" value="3"> Tryptophan</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">9. What primary function does the codon AUG serve during protein synthesis?</div>
+                <div class="opts" data-ans="1">
+                    <label><input type="radio" name="q9" value="0" required> It triggers the termination of the polypeptide chain.</label>
+                    <label><input type="radio" name="q9" value="1"> It functions as a "start" signal for the protein-synthesizing machinery.</label>
+                    <label><input type="radio" name="q9" value="2"> It unwinds the DNA double helix.</label>
+                    <label><input type="radio" name="q9" value="3"> It binds directly to the nuclear pores.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">10. How many specific codons do not code for an amino acid, but instead signal for translation to stop?</div>
+                <div class="opts" data-ans="2">
+                    <label><input type="radio" name="q10" value="0" required> One</label>
+                    <label><input type="radio" name="q10" value="1"> Two</label>
+                    <label><input type="radio" name="q10" value="2"> Three</label>
+                    <label><input type="radio" name="q10" value="3"> Four</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">11. What molecule serves to bridge the gap between information stored in the DNA and the actual formation of a protein?</div>
+                <div class="opts" data-ans="3">
+                    <label><input type="radio" name="q11" value="0" required> DNA polymerase</label>
+                    <label><input type="radio" name="q11" value="1"> Lipids</label>
+                    <label><input type="radio" name="q11" value="2"> Carbohydrates</label>
+                    <label><input type="radio" name="q11" value="3"> Ribose nucleic acid (RNA)</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">12. The process of transcription begins when:</div>
+                <div class="opts" data-ans="1">
+                    <label><input type="radio" name="q12" value="0" required> The ribosome completely envelops the mRNA strand.</label>
+                    <label><input type="radio" name="q12" value="1"> A section of DNA unwinds after transcription factors bind to it.</label>
+                    <label><input type="radio" name="q12" value="2"> Amino acids are assembled into a long chain.</label>
+                    <label><input type="radio" name="q12" value="3"> mRNA exits the nucleus.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">13. During the transcription process, how many strands of the DNA molecule act as a template for synthesizing mRNA?</div>
+                <div class="opts" data-ans="0">
+                    <label><input type="radio" name="q13" value="0" required> One strand</label>
+                    <label><input type="radio" name="q13" value="1"> Both strands simultaneously</label>
+                    <label><input type="radio" name="q13" value="2"> Neither strand; mRNA synthesis is independent of DNA strands</label>
+                    <label><input type="radio" name="q13" value="3"> Three strands</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">14. Which enzyme is responsible for catalyzing the synthesis of the mRNA strand?</div>
+                <div class="opts" data-ans="3">
+                    <label><input type="radio" name="q14" value="0" required> DNA ligase</label>
+                    <label><input type="radio" name="q14" value="1"> Helicase</label>
+                    <label><input type="radio" name="q14" value="2"> DNA polymerase</label>
+                    <label><input type="radio" name="q14" value="3"> RNA polymerase</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">15. How does the newly synthesized mRNA reach the cytoplasm from the nucleus?</div>
+                <div class="opts" data-ans="1">
+                    <label><input type="radio" name="q15" value="0" required> By simple diffusion through the phospholipid bilayer.</label>
+                    <label><input type="radio" name="q15" value="1"> By moving through the nuclear pores.</label>
+                    <label><input type="radio" name="q15" value="2"> It is carried across by tRNA.</label>
+                    <label><input type="radio" name="q15" value="3"> Ribosomes enter the nucleus to translate it there.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">16. The process where the message on the mRNA is converted into an amino acid sequence is called:</div>
+                <div class="opts" data-ans="2">
+                    <label><input type="radio" name="q16" value="0" required> Transcription</label>
+                    <label><input type="radio" name="q16" value="1"> Replication</label>
+                    <label><input type="radio" name="q16" value="2"> Translation</label>
+                    <label><input type="radio" name="q16" value="3"> Translocation</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">17. In the translation phase, what is the specific role of the tRNA molecule?</div>
+                <div class="opts" data-ans="0">
+                    <label><input type="radio" name="q17" value="0" required> To bring the appropriate amino acid to the ribosome.</label>
+                    <label><input type="radio" name="q17" value="1"> To break down unused mRNA sequences.</label>
+                    <label><input type="radio" name="q17" value="2"> To permanently bind to the DNA template.</label>
+                    <label><input type="radio" name="q17" value="3"> To act as a transcription factor.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">18. During protein synthesis, correct pairing is ensured because:</div>
+                <div class="opts" data-ans="1">
+                    <label><input type="radio" name="q18" value="0" required> The codon on the DNA matches the anticodon on the mRNA.</label>
+                    <label><input type="radio" name="q18" value="1"> The anticodon on the tRNA molecule matches with the codon on the mRNA.</label>
+                    <label><input type="radio" name="q18" value="2"> The triplet on the tRNA matches the codon on the DNA.</label>
+                    <label><input type="radio" name="q18" value="3"> The ribosome actively edits incorrect amino acids through trial and error.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">19. What mechanical action does the ribosome perform immediately after a new amino acid is joined to the polypeptide chain?</div>
+                <div class="opts" data-ans="2">
+                    <label><input type="radio" name="q19" value="0" required> It releases the entire polypeptide chain into the cytoplasm.</label>
+                    <label><input type="radio" name="q19" value="1"> It disassembles into two separate subunits.</label>
+                    <label><input type="radio" name="q19" value="2"> It nudges the mRNA strand along so the next tRNA can fall into place.</label>
+                    <label><input type="radio" name="q19" value="3"> It reverses direction to proofread the last amino acid added.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">20. Polypeptide chains begin with Methionine (Met). However, mature functional proteins do not always start with Met. Why?</div>
+                <div class="opts" data-ans="1">
+                    <label><input type="radio" name="q20" value="0" required> Met spontaneously degrades in the cytoplasm.</label>
+                    <label><input type="radio" name="q20" value="1"> An enzyme may subsequently remove the Met amino acid from the chain.</label>
+                    <label><input type="radio" name="q20" value="2"> The start codon AUG rarely functions during actual synthesis.</label>
+                    <label><input type="radio" name="q20" value="3"> Met is replaced by a stop codon at the end of translation.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">21. Considering the mathematical model of the genetic code, what is the primary reason biological systems utilize a 3-base sequence (triplet) rather than a 2-base sequence to code for amino acids?</div>
+                <div class="opts" data-ans="3">
+                    <label><input type="radio" name="q21" value="0" required> A 2-base sequence produces 64 combinations, leading to excessive redundancy.</label>
+                    <label><input type="radio" name="q21" value="1"> Ribosomes physically cannot bind to sequences shorter than 3 bases.</label>
+                    <label><input type="radio" name="q21" value="2"> A 2-base sequence would generate 32 combinations, which is unstable.</label>
+                    <label><input type="radio" name="q21" value="3"> A 2-base sequence yields only 16 combinations (4²), which is insufficient to code for the 20 distinct amino acids.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">22. If a specific drug permanently inhibits the activity of RNA polymerase within a group of cells, which fundamental cellular process will be directly halted first?</div>
+                <div class="opts" data-ans="0">
+                    <label><input type="radio" name="q22" value="0" required> The synthesis of complementary mRNA from the DNA template.</label>
+                    <label><input type="radio" name="q22" value="1"> The unwinding of the DNA molecule by transcription factors.</label>
+                    <label><input type="radio" name="q22" value="2"> The attachment of tRNA to the active ribosome.</label>
+                    <label><input type="radio" name="q22" value="3"> The release of completed polypeptide chains from the nucleus.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">23. A genetic mutation alters a DNA triplet such that the transcribed mRNA codon changes from UUU (Phenylalanine) to UUC. However, the final polypeptide chain is completely normal. What principle of protein synthesis does this illustrate?</div>
+                <div class="opts" data-ans="2">
+                    <label><input type="radio" name="q23" value="0" required> The enzymatic removal of mutated amino acids.</label>
+                    <label><input type="radio" name="q23" value="1"> The ability of ribosomes to repair mRNA sequences.</label>
+                    <label><input type="radio" name="q23" value="2"> Redundancy in the genetic code protecting against certain point mutations.</label>
+                    <label><input type="radio" name="q23" value="3"> The structural insignificance of Phenylalanine in most proteins.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">24. What is the strict, logical sequence of structural alignment required for successful translation to proceed at the cellular level?</div>
+                <div class="opts" data-ans="1">
+                    <label><input type="radio" name="q24" value="0" required> tRNA binds ribosome → DNA unwinds → mRNA is translated.</label>
+                    <label><input type="radio" name="q24" value="1"> mRNA binds ribosome → tRNA brings amino acid → tRNA anticodon matches mRNA codon.</label>
+                    <label><input type="radio" name="q24" value="2"> Amino acid binds DNA → mRNA attaches to amino acid → Ribosome transports complex.</label>
+                    <label><input type="radio" name="q24" value="3"> Ribosome moves into nucleus → tRNA synthesizes protein → mRNA brings amino acids.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">25. If the continuous "nudging" mechanism of the ribosome along the mRNA strand were to fail immediately after the incorporation of the second amino acid, what would be the direct functional consequence?</div>
+                <div class="opts" data-ans="3">
+                    <label><input type="radio" name="q25" value="0" required> The polypeptide would automatically fold into its final 3D structure.</label>
+                    <label><input type="radio" name="q25" value="1"> The DNA template would immediately begin transcribing a new mRNA strand.</label>
+                    <label><input type="radio" name="q25" value="2"> The mRNA strand would reverse direction and be broken down in the nucleus.</label>
+                    <label><input type="radio" name="q25" value="3"> The next tRNA molecule would be unable to fall into place, prematurely halting elongation.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">26. In an experimental cellular environment, nuclear pores are artificially blocked. Which key event in the "central dogma" of molecular biology is physically isolated and prevented as a result?</div>
+                <div class="opts" data-ans="2">
+                    <label><input type="radio" name="q26" value="0" required> The binding of transcription factors to the DNA.</label>
+                    <label><input type="radio" name="q26" value="1"> The catalytic action of RNA polymerase.</label>
+                    <label><input type="radio" name="q26" value="2"> The convergence of the mRNA transcript with the translation machinery.</label>
+                    <label><input type="radio" name="q26" value="3"> The unwinding of the DNA double helix.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">27. An mRNA strand is being translated. It reads: AUG-GGC-UAC-UAA. Assuming standard translation rules and no post-translational modification, how many amino acids will compose the primary sequence of the resulting polypeptide?</div>
+                <div class="opts" data-ans="0">
+                    <label><input type="radio" name="q27" value="0" required> Three</label>
+                    <label><input type="radio" name="q27" value="1"> Four</label>
+                    <label><input type="radio" name="q27" value="2"> Two</label>
+                    <label><input type="radio" name="q27" value="3"> One</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">28. Which of the following best explains why one continuous DNA sequence cannot serve as the direct, physical template for assembling an amino acid chain?</div>
+                <div class="opts" data-ans="1">
+                    <label><input type="radio" name="q28" value="0" required> DNA possesses an anticodon structure that repels amino acids.</label>
+                    <label><input type="radio" name="q28" value="1"> DNA remains safely compartmentalized in the nucleus, whereas the protein assembly machinery is located in the cytoplasm.</label>
+                    <label><input type="radio" name="q28" value="2"> DNA lacks the start and stop sequences necessary for translation.</label>
+                    <label><input type="radio" name="q28" value="3"> Amino acids can only physically bond with uracil, which is absent in DNA.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">29. The synthesis of a functional polypeptide relies on precise complementary base pairing across multiple stages. Which pair specifically acts as the final "lock and key" verification step before an amino acid is permanently added to the chain?</div>
+                <div class="opts" data-ans="2">
+                    <label><input type="radio" name="q29" value="0" required> DNA template strand and newly formed mRNA strand.</label>
+                    <label><input type="radio" name="q29" value="1"> RNA polymerase and the unwound DNA section.</label>
+                    <label><input type="radio" name="q29" value="2"> The mRNA codon and the tRNA anticodon.</label>
+                    <label><input type="radio" name="q29" value="3"> The transcription factors and the DNA sequence.</label>
+                </div>
+            </div>
+
+            <div class="q-card">
+                <div class="q-text">30. A newly identified, completely functional enzyme within a human cell is sequenced and found to begin with the amino acid Valine instead of Methionine. Based on standard protein synthesis rules, what is the most scientifically sound explanation for this observation?</div>
+                <div class="opts" data-ans="1">
+                    <label><input type="radio" name="q30" value="0" required> The human translation machinery randomly selects which amino acid acts as the start signal.</label>
+                    <label><input type="radio" name="q30" value="1"> The initiation codon AUG properly signaled for Methionine, but an enzyme subsequently removed the Methionine during protein processing.</label>
+                    <label><input type="radio" name="q30" value="2"> Valine functions as a universally accepted alternative start codon in mature eukaryotic cells.</label>
+                    <label><input type="radio" name="q30" value="3"> The mRNA transcript bypassed the ribosome entirely and self-assembled into a protein.</label>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submit-btn">Submit Quiz</button>
+        <div class="loading-msg" id="loading-msg">Submitting your answers... Please wait.</div>
+    </form>
+
+    <div id="results-container">
+        <div class="score-display" id="score-display"></div>
+        <div id="detailed-results"></div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const FORMSPREE_URL = "https://formspree.io/f/xgorlkjl";
+    const quizForm = document.getElementById("quiz-form");
+    const resultsContainer = document.getElementById("results-container");
+    const scoreDisplay = document.getElementById("score-display");
+    const detailedResults = document.getElementById("detailed-results");
+    const timerDisplay = document.getElementById("timer");
+    const submitBtn = document.getElementById("submit-btn");
+    const loadingMsg = document.getElementById("loading-msg");
+    const qCards = document.querySelectorAll('.q-card');
+
+    let timeLeft = 30 * 60;
+    let timerInterval = setInterval(updateTimer, 1000);
+
+    function updateTimer() {
+        const minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        timerDisplay.textContent = `${minutes}:${seconds}`;
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            timerDisplay.textContent = "00:00";
+            alert("Time is up! Submitting automatically.");
+            submitQuiz();
+        } else {
+            timeLeft--;
+        }
+    }
+
+    quizForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        submitQuiz();
+    });
+
+    function submitQuiz() {
+        clearInterval(timerInterval);
+        submitBtn.disabled = true;
+        submitBtn.style.display = 'none';
+        loadingMsg.style.display = 'block';
+
+        const studentName = document.getElementById("student-name").value || "Unknown Student";
+        let score = 0;
+        let formData = new FormData();
+        formData.append("Student Name", studentName);
+        
+        detailedResults.innerHTML = "";
+
+        qCards.forEach((card, index) => {
+            const qText = card.querySelector('.q-text').innerText;
+            const optsDiv = card.querySelector('.opts');
+            const correctAnsIndex = parseInt(optsDiv.getAttribute('data-ans'));
+            const labels = optsDiv.querySelectorAll('label');
+            
+            const selectedRadio = optsDiv.querySelector('input[type="radio"]:checked');
+            const userAnsIndex = selectedRadio ? parseInt(selectedRadio.value) : -1;
+            
+            const isCorrect = userAnsIndex === correctAnsIndex;
+            const correctText = labels[correctAnsIndex].innerText.trim();
+            const userText = userAnsIndex !== -1 ? labels[userAnsIndex].innerText.trim() : "No answer";
+
+            if (isCorrect) score++;
+
+            formData.append(`Q${index + 1}`, `User: ${userText} | Correct: ${correctText}`);
+
+            const resCard = document.createElement("div");
+            resCard.className = `res-card ${isCorrect ? 'res-correct' : 'res-incorrect'}`;
+            
+            resCard.innerHTML = `
+                <div class="res-header">${qText}</div>
+                <div><strong>Your Answer:</strong> ${userAnsIndex !== -1 ? userText : '<span style="color:var(--error-color)">No answer provided</span>'} ${isCorrect ? '✅' : '❌'}</div>
+                ${!isCorrect ? `<div class="correct-ans">Correct Answer: ${correctText}</div>` : ''}
+            `;
+            detailedResults.appendChild(resCard);
+            
+            const radios = optsDiv.querySelectorAll('input[type="radio"]');
+            radios.forEach(r => r.disabled = true);
+        });
+
+        document.getElementById("student-name").disabled = true;
+        const finalScoreText = `${score} / ${qCards.length}`;
+        scoreDisplay.textContent = `Final Score: ${finalScoreText}`;
+        formData.append("Total Score", finalScoreText);
+
+        fetch(FORMSPREE_URL, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+        }).then(response => {
+            loadingMsg.style.display = 'none';
+            resultsContainer.style.display = "block";
+            window.scrollTo({ top: resultsContainer.offsetTop - 20, behavior: 'smooth' });
+        }).catch(error => {
+            loadingMsg.style.display = 'none';
+            alert("Network error. Results are displayed below.");
+            resultsContainer.style.display = "block";
+            window.scrollTo({ top: resultsContainer.offsetTop - 20, behavior: 'smooth' });
+        });
+    }
+});
+</script>
+</body>
+</html>
